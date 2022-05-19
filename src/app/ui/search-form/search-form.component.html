@@ -1,0 +1,27 @@
+<!-- implement search form here -->
+
+<ng-container *ngIf="searchForm">
+  <form [formGroup]="searchForm" id="searchForm">
+    <ng-container *ngIf="searchForm.get('searchText') as searchTextControl">
+      <mat-form-field appearance="fill" class="search-input">
+        <mat-label>Search</mat-label>
+        <input matInput formControlName="searchText" placeholder="" />
+        <mat-error *ngIf="searchTextControl.invalid">{{ getSearchErrorMessage() }}</mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="searchForm.get('filter') as filterControl">
+      <mat-form-field class="select-input" appearance="fill">
+        <mat-label>Filter</mat-label>
+        <mat-select formControlName="filter">
+          <mat-option
+            *ngFor="let filterOption of searchFormService.filterOptionsAsObservable() | async"
+            [value]="filterOption.filterValue"
+          >
+            {{ filterOption.filterText }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+  </form>
+</ng-container>
